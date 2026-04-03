@@ -1,6 +1,10 @@
 package model;
 
 public class CurrentAccount extends BankAccount {
+    public CurrentAccount() {
+        this.accountType = "CURRENT";
+    }
+
     @Override
     public double getBalance() {
         return balance;

@@ -1,22 +1,49 @@
 package app;
 
+import model.BankAccount;
 import model.CurrentAccount;
 import model.SavingsAccount;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 public class Main {
+
+    static Optional<BankAccount> findAccountById(Map<Integer, BankAccount> accounts, int id) {
+        return Optional.ofNullable(accounts.get(id));
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello and welcome to BankEase!");
 
-        SavingsAccount savingsAccount = new SavingsAccount();
-        CurrentAccount currentAccount = new CurrentAccount();
+        Map<Integer, BankAccount> accounts = new HashMap<>();
 
-        savingsAccount.deposit(500);
-        currentAccount.deposit(5000);
+        String type = "CURRENT";
 
-        savingsAccount.withdraw(200);
-        currentAccount.withdraw(60000);
+        BankAccount account;
 
-        System.out.println("Savings Account Balance: " + savingsAccount.getBalance());
-        System.out.println("Current Account Balance: " + currentAccount.getBalance());
+        switch (type) {
+            case "SAVINGS" -> account = new SavingsAccount();
+            case "CURRENT" -> account = new CurrentAccount();
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        }
+
+        accounts.put(account.getAccountNumber(), account);
+
+        Optional<BankAccount> accountOptional = findAccountById(accounts, account.getAccountNumber());
+
+        if (accountOptional.isPresent()) {
+            BankAccount fetchedAccount = accountOptional.get();
+
+            fetchedAccount.deposit(1000);
+            fetchedAccount.withdraw(6000);
+
+            System.out.println("Type: " + fetchedAccount.getAccountType());
+            System.out.println("Balance: " + fetchedAccount.getBalance());
+        }
+        else{
+            System.out.println("No account with account number " + account.getAccountNumber());
+        }
     }
 }

@@ -1,8 +1,8 @@
 package model;
 
 public abstract class BankAccount {
-    private int accountNumber;
-    private String accountType;
+    private final int accountNumber;
+    protected String accountType;
     protected double balance;
 
     protected BankAccount() {
@@ -13,6 +13,14 @@ public abstract class BankAccount {
 
     int generateAccountNumber() {
         return (1000000 + (int)(Math.random() * 9000000));
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getAccountType() {
+        return accountType;
     }
 
     public abstract void withdraw(double amount);

@@ -2,6 +2,10 @@ package model;
 
 public class SavingsAccount extends BankAccount{
 
+    public SavingsAccount() {
+        this.accountType = "SAVINGS";
+    }
+
     @Override
     public double getBalance() {
         return balance;
