@@ -15,6 +15,7 @@ public class SavingsAccount extends BankAccount{
     public void withdraw(double amount) {
         if(balance >= amount){
             balance -= amount;
+            addTransaction("WITHDRAW", amount);
         }
         else{
             System.out.println("Withdraw Failed, Insufficient Balance");
@@ -24,5 +25,6 @@ public class SavingsAccount extends BankAccount{
     @Override
     public void deposit(double amount) {
         balance += amount;
+        addTransaction("DEPOSIT", amount);
     }
 }

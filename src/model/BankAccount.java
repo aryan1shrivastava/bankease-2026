@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class BankAccount {
     private final int accountNumber;
     protected String accountType;
@@ -7,6 +10,7 @@ public abstract class BankAccount {
 
     protected BankAccount() {
         this.accountNumber = generateAccountNumber();
+        this.transactions = new ArrayList<>();
     }
 
     public abstract double getBalance();
@@ -23,8 +27,18 @@ public abstract class BankAccount {
         return accountType;
     }
 
+    private List<Transaction> transactions;
+    protected void addTransaction(String transactionType, double amount) {
+        transactions.add(new Transaction(transactionType, amount));
+    }
+
+    public List<Transaction> printTransactionHistory() {
+        return transactions;
+    }
+
     public abstract void withdraw(double amount);
 
     public abstract void deposit(double amount);
+
 
 }

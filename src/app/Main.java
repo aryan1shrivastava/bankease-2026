@@ -3,10 +3,9 @@ package app;
 import model.BankAccount;
 import model.CurrentAccount;
 import model.SavingsAccount;
+import model.Transaction;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class Main {
 
@@ -19,7 +18,7 @@ public class Main {
 
         Map<Integer, BankAccount> accounts = new HashMap<>();
 
-        String type = "CURRENT";
+        String type = "SAVINGS";
 
         BankAccount account;
 
@@ -36,14 +35,25 @@ public class Main {
         if (accountOptional.isPresent()) {
             BankAccount fetchedAccount = accountOptional.get();
 
-            fetchedAccount.deposit(1000);
+            fetchedAccount.deposit(10000);
             fetchedAccount.withdraw(6000);
+            fetchedAccount.withdraw(1000);
+            fetchedAccount.deposit(5600);
+
 
             System.out.println("Type: " + fetchedAccount.getAccountType());
             System.out.println("Balance: " + fetchedAccount.getBalance());
+
+            List<Transaction> history = fetchedAccount.printTransactionHistory();
+
+            for( Transaction t : history) {
+                System.out.println(t);
+            }
         }
         else{
             System.out.println("No account with account number " + account.getAccountNumber());
         }
+
+
     }
 }
