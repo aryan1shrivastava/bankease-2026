@@ -1,5 +1,7 @@
 package model;
 
+import exception.InsufficientFundException;
+
 public class SavingsAccount extends BankAccount{
 
     public SavingsAccount() {
@@ -12,13 +14,13 @@ public class SavingsAccount extends BankAccount{
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws InsufficientFundException {
         if(balance >= amount){
             balance -= amount;
             addTransaction("WITHDRAW", amount);
         }
         else{
-            System.out.println("Withdraw Failed, Insufficient Balance");
+            throw new InsufficientFundException("Insufficient funds! Your balance is: " + balance);
         }
     }
 

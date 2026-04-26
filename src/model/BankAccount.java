@@ -1,5 +1,7 @@
 package model;
 
+import exception.InsufficientFundException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,7 @@ public abstract class BankAccount {
         return transactions;
     }
 
-    public abstract void withdraw(double amount);
+    public abstract void withdraw(double amount) throws InsufficientFundException;
 
     public abstract void deposit(double amount);
 

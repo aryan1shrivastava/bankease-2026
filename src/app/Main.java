@@ -1,5 +1,6 @@
 package app;
 
+import exception.InsufficientFundException;
 import model.BankAccount;
 import model.CurrentAccount;
 import model.SavingsAccount;
@@ -13,7 +14,7 @@ public class Main {
         return Optional.ofNullable(accounts.get(id));
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InsufficientFundException {
         System.out.println("Hello and welcome to BankEase!");
 
         Map<Integer, BankAccount> accounts = new HashMap<>();
@@ -35,10 +36,14 @@ public class Main {
         if (accountOptional.isPresent()) {
             BankAccount fetchedAccount = accountOptional.get();
 
-            fetchedAccount.deposit(10000);
-            fetchedAccount.withdraw(6000);
-            fetchedAccount.withdraw(1000);
-            fetchedAccount.deposit(5600);
+            try {
+                fetchedAccount.deposit(10000);
+                fetchedAccount.withdraw(6000);
+                fetchedAccount.withdraw(100000);
+                fetchedAccount.deposit(5600);
+            } catch (InsufficientFundException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
 
 
             System.out.println("Type: " + fetchedAccount.getAccountType());

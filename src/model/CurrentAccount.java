@@ -1,5 +1,7 @@
 package model;
 
+import exception.InsufficientFundException;
+
 public class CurrentAccount extends BankAccount {
     public CurrentAccount() {
         this.accountType = "CURRENT";
@@ -11,13 +13,13 @@ public class CurrentAccount extends BankAccount {
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount) throws InsufficientFundException {
         if(balance - amount >= -50000) {
             balance -= amount;
             addTransaction("WITHDRAW", amount);
         }
         else {
-            System.out.println("Withdraw Failed, max overdraft limit reached");
+            throw new InsufficientFundException("Insufficient funds! Your balance is: " + balance);
         }
     }
 
