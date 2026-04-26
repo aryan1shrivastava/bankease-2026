@@ -1,3 +1,4 @@
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
@@ -5,6 +6,15 @@ out/
 .kotlin
 
 ### Eclipse ###
+
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+
 .apt_generated
 .classpath
 .factorypath
@@ -12,9 +22,18 @@ out/
 .settings
 .springBeans
 .sts4-cache
+
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 
 ### NetBeans ###
 /nbproject/private/
@@ -23,8 +42,17 @@ bin/
 /nbdist/
 /.nb-gradle/
 
+
 ### VS Code ###
 .vscode/
 
 ### Mac OS ###
 .DS_Store
+
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
