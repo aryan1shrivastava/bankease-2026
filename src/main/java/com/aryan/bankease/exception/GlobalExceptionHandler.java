@@ -13,4 +13,10 @@ public class GlobalExceptionHandler{
 
         return new ApiResponse<>("FAILED", ex.getMessage(), null);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return new ApiResponse<>("FAILED", ex.getMessage(), null);
+    }
 }

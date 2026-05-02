@@ -17,6 +17,10 @@ public class BankService {
     public BankAccount createAccount(String type) {
         BankAccount account;
 
+        if (!type.equals("SAVINGS") && !type.equals("CURRENT")) {
+            throw new IllegalArgumentException("Invalid account type");
+        }
+
         switch (type) {
             case "SAVINGS" -> account = new SavingsAccount();
             case "CURRENT" -> account = new CurrentAccount();
@@ -36,6 +40,9 @@ public class BankService {
 
         if(acc.isPresent()) {
             acc.get().deposit(amount);
+            if(amount <= 0) {
+                throw new IllegalArgumentException("Amount must be greater than 0");
+            }
         }else{
             throw new IllegalStateException("Account doesn't exist");
         }
@@ -44,6 +51,9 @@ public class BankService {
         Optional<BankAccount> acc = getAccount(accountId);
         if(acc.isPresent()) {
             acc.get().withdraw(amount);
+            if(amount <= 0) {
+                throw new IllegalArgumentException("Amount must be greater than 0");
+            }
         }else{
             throw new IllegalStateException("Account doesn't exist");
         }
