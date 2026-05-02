@@ -1,6 +1,6 @@
 package com.aryan.bankease.controller;
 
-import com.aryan.bankease.exception.InsufficientFundException;
+import com.aryan.bankease.model.ApiResponse;
 import com.aryan.bankease.model.BankAccount;
 import com.aryan.bankease.service.BankService;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +15,21 @@ public class BankController {
     }
 
     @PostMapping("/create")
-    public BankAccount createAccount(@RequestParam String type) {
-        return service.createAccount(type);
+    public ApiResponse<BankAccount> createAccount(@RequestParam String type){
+        BankAccount account = service.createAccount(type.toUpperCase());
+        return new ApiResponse<>("SUCCESS", "Account created successfully", account);
     }
 
     @PostMapping("/deposit")
-    public String deposit(@RequestParam int id, @RequestParam double amount) {
+    public ApiResponse<String> deposit(@RequestParam int id, @RequestParam double amount){
         service.deposit(id, amount);
-        return "Deposit successful";
+        return new ApiResponse<>("SUCCESS", "Deposit Successful", null);
     }
 
-    @PostMapping("withdraw")
-    public String withdraw(@RequestParam int id, @RequestParam double amount) throws InsufficientFundException {
+    @PostMapping("/withdraw")
+    public ApiResponse<String> withdraw(@RequestParam int id, @RequestParam double amount){
         service.withdraw(id, amount);
-        return "Withdraw successful";
+        return new ApiResponse<>("SUCCESS", "Withdrawal Successful", null);
     }
+
 }
