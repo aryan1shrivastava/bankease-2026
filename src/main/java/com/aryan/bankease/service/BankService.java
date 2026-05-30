@@ -14,20 +14,17 @@ import java.util.Optional;
 public class BankService {
     private Map<Integer, BankAccount> accounts = new HashMap<>();
 
+    //Create new savings or current account
     public BankAccount createAccount(String type) {
-        BankAccount account;
-
-        if (!type.equals("SAVINGS") && !type.equals("CURRENT")) {
-            throw new IllegalArgumentException("Invalid account type");
+        if(type == null || (!type.equalsIgnoreCase("SAVINGS") && !type.equalsIgnoreCase("CURRENT"))){
+            throw new IllegalArgumentException("Invalid account type. MUST be SAVINGS or CURRENT");
         }
 
-        switch (type) {
-            case "SAVINGS" -> account = new SavingsAccount();
-            case "CURRENT" -> account = new CurrentAccount();
-            default -> throw new IllegalStateException("Unexpected value: " + type);
-        }
+        BankAccount account = type.equalsIgnoreCase("SAVINGS")
+                ? new SavingsAccount()
+                : new CurrentAccount();
 
-        accounts.put(account.getAccountNumber(), account);
+        accounts.put(account.getAccountNumber(),  account);
         return account;
     }
 
@@ -35,6 +32,7 @@ public class BankService {
         return Optional.ofNullable(accounts.get(accountId));
     }
 
+    //Deposit money into account
     public void deposit(int accountId, double amount) {
         Optional<BankAccount> acc = getAccount(accountId);
 
