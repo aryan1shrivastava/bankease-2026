@@ -12,19 +12,19 @@ import java.util.Optional;
 
 @Service
 public class BankService {
-    private Map<Integer, BankAccount> accounts = new HashMap<>();
 
-    //Create new savings or current account
+    private final Map<Integer, BankAccount> accounts = new HashMap<>();
+
     public BankAccount createAccount(String type) {
-        if(type == null || (!type.equalsIgnoreCase("SAVINGS") && !type.equalsIgnoreCase("CURRENT"))){
-            throw new IllegalArgumentException("Invalid account type. MUST be SAVINGS or CURRENT");
+        if (type == null || (!type.equalsIgnoreCase("SAVINGS") && !type.equalsIgnoreCase("CURRENT"))) {
+            throw new IllegalArgumentException("Invalid account type. Must be SAVINGS or CURRENT");
         }
 
         BankAccount account = type.equalsIgnoreCase("SAVINGS")
                 ? new SavingsAccount()
                 : new CurrentAccount();
 
-        accounts.put(account.getAccountNumber(),  account);
+        accounts.put(account.getAccountNumber(), account);
         return account;
     }
 
@@ -32,28 +32,25 @@ public class BankService {
         return Optional.ofNullable(accounts.get(accountId));
     }
 
-    //Deposit money into account
     public void deposit(int accountId, double amount) {
-        Optional<BankAccount> acc = getAccount(accountId);
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be greater than 0");
+        }
 
-        if(acc.isPresent()) {
-            acc.get().deposit(amount);
-            if(amount <= 0) {
-                throw new IllegalArgumentException("Amount must be greater than 0");
-            }
-        }else{
-            throw new IllegalStateException("Account doesn't exist");
-        }
+        BankAccount account = getAccount(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + accountId));
+
+        account.deposit(amount);
     }
+
     public void withdraw(int accountId, double amount) throws InsufficientFundException {
-        Optional<BankAccount> acc = getAccount(accountId);
-        if(acc.isPresent()) {
-            acc.get().withdraw(amount);
-            if(amount <= 0) {
-                throw new IllegalArgumentException("Amount must be greater than 0");
-            }
-        }else{
-            throw new IllegalStateException("Account doesn't exist");
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdraw amount must be greater than 0");
         }
+
+        BankAccount account = getAccount(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found with id: " + accountId));
+
+        account.withdraw(amount);
     }
 }
