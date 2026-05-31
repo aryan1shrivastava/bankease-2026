@@ -1,31 +1,28 @@
 package com.aryan.bankease.model;
 
 import com.aryan.bankease.exception.InsufficientFundException;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
-public class CurrentAccount extends BankAccount {
+@Entity
+@DiscriminatorValue("CURRENT")
+public class CurrentAccount extends Account {
+
     public CurrentAccount() {
-        this.accountType = "CURRENT";
-    }
-
-    @Override
-    public double getBalance() {
-        return balance;
+        setAccountType("CURRENT");
     }
 
     @Override
     public void withdraw(double amount) throws InsufficientFundException {
-        if(balance - amount >= -50000) {
-            balance -= amount;
-            addTransaction("WITHDRAW", amount);
-        }
-        else {
-            throw new InsufficientFundException("Insufficient funds! Your balance is: " + balance);
+        if (getBalance() - amount >= -50000) {
+            setBalance(getBalance() - amount);
+        } else {
+            throw new InsufficientFundException("Insufficient funds! Your balance is: " + getBalance());
         }
     }
 
     @Override
     public void deposit(double amount) {
-        balance += amount;
-        addTransaction("DEPOSIT", amount);
+        setBalance(getBalance() + amount);
     }
 }

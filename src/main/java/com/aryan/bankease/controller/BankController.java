@@ -2,8 +2,8 @@ package com.aryan.bankease.controller;
 
 import com.aryan.bankease.dto.AccountRequestDTO;
 import com.aryan.bankease.dto.TransferRequestDTO;
+import com.aryan.bankease.model.Account;
 import com.aryan.bankease.model.ApiResponse;
-import com.aryan.bankease.model.BankAccount;
 import com.aryan.bankease.service.BankService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +20,8 @@ public class BankController {
 
     @PostMapping("/accounts")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<BankAccount> createAccount(@RequestBody AccountRequestDTO request) {
-        BankAccount account = service.createAccount(request.getAccountType().toUpperCase());
+    public ApiResponse<Account> createAccount(@RequestBody AccountRequestDTO request) {
+        Account account = service.createAccount(request.getAccountType().toUpperCase());
         return new ApiResponse<>("SUCCESS", "Account created successfully", account);
     }
 
